@@ -1,3 +1,33 @@
+# app.py
+
+import os              # ✅ add this line
+import json
+from fastapi import FastAPI
+from pydantic import BaseModel
+from typing import List, Optional
+import requests
+
+from pydantic import BaseModel
+from typing import List
+
+app = FastAPI()
+
+class FeedbackRequest(BaseModel):
+    scenarioId: str
+    category: str
+    title: str
+    prompt: str
+    description: str
+    explanation: str
+    userResponse: str
+
+
+class FeedbackResult(BaseModel):
+    score: int
+    shortFeedback: str
+    detailedFeedback: str
+    tips: List[str]
+
 OPENROUTER_API_KEY = os.getenv("OPENROUTER_API_KEY")
 OPENROUTER_API_URL = "https://openrouter.ai/api/v1/chat/completions"
 
@@ -46,9 +76,9 @@ User response: {user_response}
 @app.post("/feedback", response_model=FeedbackResult)
 def get_feedback(request: FeedbackRequest):
     raw = get_llm_feedback(
-        category=request.category,
-        prompt=request.prompt,
-        user_response=request.userResponse,
+    category=request.category,
+    prompt=request.prompt,
+    user_response=request.userResponse,
     )
 
     return FeedbackResult(
