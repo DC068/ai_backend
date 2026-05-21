@@ -10,8 +10,9 @@ import requests
 from pydantic import BaseModel
 from typing import List
 
-app = FastAPI()
-
+app = FastAPI(
+    debug=True,           # ← this shows full traceback on 500
+)
 class FeedbackRequest(BaseModel):
     scenarioId: str
     category: str
@@ -56,7 +57,7 @@ User response: {user_response}
     headers = {
         "Authorization": f"Bearer {OPENROUTER_API_KEY}",
         "Content-Type": "application/json",
-        "HTTP-Referer": "https://ai-backend-qhyv.onrender.com",
+        "HTTP-Referer": "https://ai-backend-qhyv.onrender.com", 
         "X-OpenRouter-Title": "Conversation Coach",
     }
 
